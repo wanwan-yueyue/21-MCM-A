@@ -92,8 +92,7 @@ class FunctionalGroupClassifier:
             if idx < len(functional_labels):
                 group = functional_labels[idx]
                 self.group_to_cluster[group] = cluster_id
-                print(f"聚类中心 {cluster_id} 分配为功能群 '{group}' (得分：{score:.3f}, \
-                      p_22：{p_22:.3f}, mu_22：{mu_22:.3f})")
+                print(f"聚类中心 {cluster_id} 分配为功能群 '{group}' (得分：{score:.3f}, p_22：{p_22:.3f}, mu_22：{mu_22:.3f})")
         
         # 根据映射生成每个真菌的功能群标签
         self.functional_groups = []
@@ -103,7 +102,6 @@ class FunctionalGroupClassifier:
                 if label == cluster_id:
                     self.functional_groups.append(group)
                     break
-            
             else:
                 # 未找到对应功能群，标记为I型
                 self.functional_groups.append('I')
@@ -192,13 +190,34 @@ class FunctionalGroupClassifier:
         if self.functional_groups is None:
             raise ValueError("请先调用fit方法进行聚类拟合")
         
+        # 创建一个字典，键是真菌ID，值是功能群标签
+        return dict(zip(self.fungus_ids, self.functional_groups))
+    
+    def get_cluster_statistics(self) -> dict:
+        """
+        获取各聚类的统计信息
+        
+        :param self: 类实例本身
+        :return: 聚类统计信息
+        :rtype: dict
+        """
+        if self.cluster_labels is None:
+            raise ValueError("请先调用fit方法进行聚类拟合")
+        
         stats = {}
         for cluster_id in range(self.n_clusters):
             # 找到属于该聚类的真菌索引
             indices = np.where(self.cluster_labels == cluster_id)[0]
+            
+            # 统计功能群分布
+            group_counts = {}
+            for i in indices:
+                group = self.functional_groups[i]
+                group_counts[group] = group_counts.get(group, 0) + 1
+            
             stats[f"聚类{cluster_id}"] = {
                 "数量": len(indices),
-                "功能群分布": {g: list(self.functional_groups)[i] for i, g in enumerate(self.functional_groups) if i in indices}
+                "功能群分布": group_counts
             }
         
         return stats
