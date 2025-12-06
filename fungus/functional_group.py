@@ -248,6 +248,7 @@ if __name__ == "__main__":
     p_10, p_16, p_22 = [], [], []
     mu_10, mu_16, mu_22 = [], [], []
     Q10 = []
+    enzyme_1, enzyme_2, enzyme_3, enzyme_4, enzyme_5 = [], [], [], [], []
     
     for f_type in fungus_types:
         if f_type == 'F':  # 快速分解型
@@ -258,6 +259,11 @@ if __name__ == "__main__":
             mu_16.append(np.random.uniform(5, 6))
             mu_22.append(np.random.uniform(6, 7))
             Q10.append(np.random.uniform(1.5, 2.0))
+            enzyme_1.append(np.random.uniform(0.7, 1.0))
+            enzyme_2.append(np.random.uniform(0.6, 0.9))
+            enzyme_3.append(np.random.uniform(0.8, 1.0))
+            enzyme_4.append(np.random.uniform(0.7, 0.9))
+            enzyme_5.append(np.random.uniform(0.6, 0.8))
         elif f_type == 'S':  # 慢速分解型
             p_10.append(np.random.uniform(10, 20))
             p_16.append(np.random.uniform(15, 25))
@@ -266,6 +272,11 @@ if __name__ == "__main__":
             mu_16.append(np.random.uniform(1.5, 2.5))
             mu_22.append(np.random.uniform(2, 3))
             Q10.append(np.random.uniform(2.5, 3.0))
+            enzyme_1.append(np.random.uniform(0.1, 0.4))
+            enzyme_2.append(np.random.uniform(0.2, 0.5))
+            enzyme_3.append(np.random.uniform(0.1, 0.3))
+            enzyme_4.append(np.random.uniform(0.2, 0.4))
+            enzyme_5.append(np.random.uniform(0.3, 0.5))
         else:  # 中间型
             p_10.append(np.random.uniform(25, 35))
             p_16.append(np.random.uniform(30, 40))
@@ -274,6 +285,11 @@ if __name__ == "__main__":
             mu_16.append(np.random.uniform(3.0, 4.0))
             mu_22.append(np.random.uniform(3.5, 4.5))
             Q10.append(np.random.uniform(2.0, 2.5))
+            enzyme_1.append(np.random.uniform(0.4, 0.7))
+            enzyme_2.append(np.random.uniform(0.4, 0.7))
+            enzyme_3.append(np.random.uniform(0.3, 0.6))
+            enzyme_4.append(np.random.uniform(0.4, 0.6))
+            enzyme_5.append(np.random.uniform(0.4, 0.7))
     
     # 添加一些随机扰动
     mock_data["p_10"] = np.array(p_10) + np.random.normal(0, 2, n_fungi)
@@ -283,6 +299,15 @@ if __name__ == "__main__":
     mock_data["mu_16"] = np.array(mu_16) + np.random.normal(0, 0.3, n_fungi)
     mock_data["mu_22"] = np.array(mu_22) + np.random.normal(0, 0.3, n_fungi)
     mock_data["Q10"] = np.array(Q10) + np.random.normal(0, 0.1, n_fungi)
+    mock_data["enzyme_1"] = np.array(enzyme_1) + np.random.normal(0, 0.05, n_fungi)
+    mock_data["enzyme_2"] = np.array(enzyme_2) + np.random.normal(0, 0.05, n_fungi)
+    mock_data["enzyme_3"] = np.array(enzyme_3) + np.random.normal(0, 0.05, n_fungi)
+    mock_data["enzyme_4"] = np.array(enzyme_4) + np.random.normal(0, 0.05, n_fungi)
+    mock_data["enzyme_5"] = np.array(enzyme_5) + np.random.normal(0, 0.05, n_fungi)
+    
+    # 确保所有值在合理范围内
+    for key in ["enzyme_1", "enzyme_2", "enzyme_3", "enzyme_4", "enzyme_5"]:
+        mock_data[key] = np.clip(mock_data[key], 0.0, 1.0)
     
     # 创建DataFrame
     mock_df = pd.DataFrame(mock_data)
@@ -324,4 +349,4 @@ if __name__ == "__main__":
     print("\n=== 聚类统计 ===")
     stats = classifier.get_cluster_statistics()
     for cluster, info in stats.items():
-        print(f"{cluster}: {info['数量']}个真菌")
+        print(f"{cluster}: {info['数量']}个真菌, 功能群分布: {info['功能群分布']}")
