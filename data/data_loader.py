@@ -89,7 +89,7 @@ class FungalDataLoader:
                 # 菌丝延伸率
                 "mu_10", "mu_16", "mu_22",
                 # Q10系数
-                "Q10"
+                "Q10",
                 # 五种酶活性
                 "enzyme_1", "enzyme_2", "enzyme_3", "enzyme_4", "enzyme_5"
             ]
