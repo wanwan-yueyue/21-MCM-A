@@ -90,6 +90,8 @@ class FungalDataLoader:
                 "mu_10", "mu_16", "mu_22",
                 # Q10系数
                 "Q10"
+                # 五种酶活性
+                "enzyme_1", "enzyme_2", "enzyme_3", "enzyme_4", "enzyme_5"
             ]
         
         # 检查特征列是否存在
@@ -121,12 +123,18 @@ if __name__ == "__main__":
         "mu_10": np.random.uniform(1, 5, 34),
         "mu_16": np.random.uniform(2, 6, 34),
         "mu_22": np.random.uniform(3, 7, 34),
-        "Q10": np.random.uniform(1.5, 3.0, 34)
+        "Q10": np.random.uniform(1.5, 3.0, 34),
+        "enzyme_1": np.random.uniform(0.1, 1.0, 34),
+        "enzyme_2": np.random.uniform(0.1, 1.0, 34),
+        "enzyme_3": np.random.uniform(0.1, 1.0, 34),
+        "enzyme_4": np.random.uniform(0.1, 1.0, 34),
+        "enzyme_5": np.random.uniform(0.1, 1.0, 34),
     })
 
     # 插入少量缺失值（模拟真实数据情况）
     mock_data.loc[5, "p_22"] = np.nan
     mock_data.loc[10, "mu_16"] = np.nan
+    mock_data.loc[10, "enzyme_3"] = np.nan
 
     # 测试数据加载器
     loader = FungalDataLoader()
