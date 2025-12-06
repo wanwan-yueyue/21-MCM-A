@@ -18,6 +18,7 @@ from utils.metrics import q10_correction
 class EnvironmentGenerator:
     """
     环境参数生成器
+    
     功能：生成五类环境（干旱/半干旱/半湿润/湿润/潮湿）的温度湿度时间序列，含季节性+趋势
     """
     # 五类环境的基础参数
