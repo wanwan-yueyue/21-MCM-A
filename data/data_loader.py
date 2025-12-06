@@ -1,13 +1,13 @@
 # data/data_loader.py
 # 真菌原始数据加载 / 预处理模块
 
-# 导入项目根目录到sys.path，确保可以导入utils模块（快速调试用）
+# 导入项目根目录到sys.path，确保可以导入模块（快速调试用）
 import sys
 import os
 
-# 获取当前脚本（data_loader.py）的目录
+# 获取当前脚本的目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# 获取项目根目录（21-A-final/，即current_dir的上级目录）
+# 获取项目根目录（21-A-final/）
 root_dir = os.path.dirname(current_dir)
 # 将根目录加入sys.path
 sys.path.append(root_dir)

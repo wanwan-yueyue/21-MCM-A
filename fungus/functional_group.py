@@ -5,9 +5,9 @@
 import sys
 import os
 
-# 获取当前脚本（data_loader.py）的目录
+# 获取当前脚本的目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# 获取项目根目录（21-A-final/，即current_dir的上级目录）
+# 获取项目根目录（21-A-final/）
 root_dir = os.path.dirname(current_dir)
 # 将根目录加入sys.path
 sys.path.append(root_dir)
