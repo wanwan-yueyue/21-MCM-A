@@ -94,6 +94,16 @@ class EnvironmentGenerator:
         :return: (湿度序列M, 温度序列T)
         :rtype: tuple[np.ndarray, np.ndarray]
         """
+        # 确保时间轴是唯一的，没有被重复
+        if hasattr(self, '_timeline_generated') and self._timeline_generated:
+            print(f"⚠️ 警告：环境序列已生成，跳过重复生成")
+            return self.M, self.T
+        
+        print(f"✅ 生成环境序列，持续时间：{self.duration_days}天")
+        
+        # 重新初始化时间轴，确保它是唯一的
+        self.timeline = np.arange(self.duration_days)
+        
         # 基础均值
         base_M = self.params['mu_M']
         base_T = self.params['mu_T']

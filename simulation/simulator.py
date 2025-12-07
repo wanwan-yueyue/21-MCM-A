@@ -53,7 +53,7 @@ class FungalDecompositionSimulator:
             "metrics": {},
             "min_diversity_threshold": None
         }
-
+        
         # 初始化所有模块（逐层构建）
         self._init_data_layer()
         self._init_fungus_layer()
@@ -146,6 +146,16 @@ class FungalDecompositionSimulator:
         :param F_init: 初始真菌生物量（默认随机生成）
         :param W_init: 初始木质纤维质量
         """
+        # 确保时间轴是唯一的，没有被重复
+        if hasattr(self, '_timeline_generated') and self._timeline_generated:
+            print(f"⚠️ 警告：环境序列已生成，跳过重复生成")
+            return self.M, self.T
+        
+        print(f"✅ 生成环境序列，持续时间：{self.duration_days}天")
+        
+        # 重新初始化时间轴，确保它是唯一的
+        self.timeline = np.arange(self.duration_days)
+
         # 初始化生物量
         if F_init is None:
             # 随机生成前10个真菌的初始生物量
@@ -156,6 +166,13 @@ class FungalDecompositionSimulator:
         # 参数校准（可选）
         if self.calibrate_params:
             self._calibrate_params(F_init, W_init)
+
+        # 清空历史数据，确保从头开始
+        self.decomp_model.W_history = []
+        self.growth_model.F_history = {}
+        
+        print(f"  - 初始真菌数量: {len(current_F)}")
+        print(f"  - 初始木质纤维质量: {current_W}")
 
         # 时间步进仿真
         print("\n=== 开始完整仿真 ===")
