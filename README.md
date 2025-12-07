@@ -264,14 +264,17 @@ $$
 #### 2.2.1 **目标函数**
 
 最小化类内误差平方和：
+
 $$
 J(K) = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} \|\mathbf{x}_i - \mathbf{m}_k\|^2
 $$
-其中$K$为聚类数，$C_k$为第k个聚类，$\mathbf{m}_k$为聚类中心。
+
+其中 $K$ 为聚类数， $C_k$ 为第k个聚类， $\mathbf{m}_k$ 为聚类中心。
 
 #### 2.2.2 **肘部法则确定最优K值**
 
-计算不同K值下的$J(K)$，寻找拐点：
+计算不同K值下的 $J(K)$ ，寻找拐点：
+
 $$
 \text{最优}K^* = \arg\min_{K} \left| \frac{J(K) - J(K-1)}{J(K-1) - J(K-2)} \right|
 $$
@@ -279,10 +282,12 @@ $$
 #### 2.2.3 **聚类质量验证**
 
 轮廓系数验证：
+
 $$
 s(i) = \frac{b(i) - a(i)}{\max\{a(i), b(i)\}}
 $$
-其中$a(i)$为样本i到同簇其他样本的平均距离，$b(i)$为样本i到最近其他簇样本的平均距离。
+
+其中 $a(i)$ 为样本i到同簇其他样本的平均距离， $b(i)$ 为样本i到最近其他簇样本的平均距离。
 
 ### 2.3 **功能群特征描述**
 
@@ -301,14 +306,17 @@ $$
 #### 3.1.1 **目标函数构建**
 
 最小化模拟结果与实验数据的差异：
+
 $$
 \mathcal{L}(\boldsymbol{\theta}) = \frac{1}{N} \sum_{i=1}^{N} \left( \mathbf{y}_i^{\text{sim}}(\boldsymbol{\theta}) - \mathbf{y}_i^{\text{exp}} \right)^2 + \lambda \|\boldsymbol{\theta}\|_2^2
 $$
-其中$\mathbf{y}_i^{\text{exp}}$为实验数据（分解率、菌丝延伸率等），$\mathbf{y}_i^{\text{sim}}$为模型预测值，$\lambda$为正则化系数。
+
+其中 $\mathbf{y}_i^{\text{exp}}$ 为实验数据（分解率、菌丝延伸率等）， $\mathbf{y}_i^{\text{sim}}$ 为模型预测值， $\lambda$ 为正则化系数。
 
 #### 3.1.2 **自适应梯度下降算法**
 
 采用Adam优化算法：
+
 $$
 \begin{aligned}
 m_t &= \beta_1 m_{t-1} + (1-\beta_1) \nabla\mathcal{L}(\boldsymbol{\theta}_t) \\
@@ -324,19 +332,19 @@ $$
 
 利用Table S3单物种分解数据，校准各功能群基础参数：
 
-1. 分解系数$\alpha_i$：从一级动力学模型推导
-2. 资源转换效率$\eta_i$：基于碳利用效率文献值
-3. 死亡率$d_i$：从长期培养数据估计
-4. 湿度响应参数$M_{\text{opt},i}, \sigma_{M,i}$
-5. 温度响应参数$T_{\text{opt},i}, \sigma_{T,i}, Q_{10,i}$
+1. 分解系数 $\alpha_i$ ：从一级动力学模型推导
+2. 资源转换效率 $\eta_i$ ：基于碳利用效率文献值
+3. 死亡率 $d_i$ ：从长期培养数据估计
+4. 湿度响应参数 $M_{\text{opt},i}, \sigma_{M,i}$
+5. 温度响应参数 $T_{\text{opt},i}, \sigma_{T,i}, Q_{10,i}$
 
 #### 阶段2：相互作用参数校准
 
 基于竞争实验数据，校准：
 
-1. 竞争系数$\beta_{ij}$
-2. 协同系数$\gamma_{ij}$
-3. 环境容纳量$K_i$
+1. 竞争系数 $\beta_{ij}$
+2. 协同系数 $\gamma_{ij}$
+3. 环境容纳量 $K_i$
 
 ## 四、**木质纤维分解动力学模型**
 
@@ -363,7 +371,7 @@ $$
 
 其中：
 
-- $\alpha_{i,\text{ref}}$：参考温度$T_{\text{ref}} = 22°C$下的分解系数
+- $\alpha_{i,\text{ref}}$：参考温度 $T_{\text{ref}} = 22°C$ 下的分解系数
 - $Q_{10,i}$：温度敏感性系数
 
 ### 4.2 **真菌生长模型**
@@ -383,16 +391,19 @@ $$
 #### 4.2.2 **综合环境响应函数**
 
 将湿度和温度响应结合：
+
 $$
 R_i(M,T) = R_i^M(M) \cdot R_i^T(T)
 $$
 
 **湿度响应函数**：
+
 $$
 R_i^M(M) = \exp\left[ -\frac{(M - M_{\text{opt},i})^2}{2\sigma_{M,i}^2} \right]
 $$
 
 **温度响应函数**：
+
 $$
 R_i^T(T) = Q_{10,i}^{\frac{T - T_{\text{ref}}}{10}} \cdot \exp\left[ -\frac{(T - T_{\text{opt},i})^2}{2\sigma_{T,i}^2} \right]
 $$
@@ -409,6 +420,7 @@ $$
 ### 5.1 **竞争-协同连续谱理论**
 
 定义净相互作用系数：
+
 $$
 \phi_{ij} = \gamma_{ij} - \beta_{ij}
 $$
@@ -426,16 +438,17 @@ $$
 \beta_{ij}(M,T) = \beta_{ij}^0 \cdot f\left( \frac{R_j(M,T)}{R_i(M,T)} \right)
 $$
 
-其中$f(x)$为单调递增函数，反映当物种j的环境适应度相对较高时，对物种i的竞争压力增强。
+其中 $f(x)$ 为单调递增函数，反映当物种j的环境适应度相对较高时，对物种i的竞争压力增强。
 
 #### 5.2.2 **协同系数资源互补性**
 
 基于性状差异的协同作用：
+
 $$
 \gamma_{ij} = \alpha \cdot [1 - \text{sim}(\mathbf{t}_i, \mathbf{t}_j)]
 $$
 
-其中$\text{sim}(\cdot)$为性状相似度函数，$\alpha$为协同强度系数。
+其中 $\text{sim}(\cdot)$ 为性状相似度函数， $\alpha$ 为协同强度系数。
 
 ### 5.3 **完整的相互作用生长方程**
 
@@ -450,11 +463,13 @@ $$
 ### 6.1 **环境参数统计模型**
 
 每类环境由均值向量和协方差矩阵描述：
+
 $$
 E \sim \mathcal{N}(\boldsymbol{\mu}_E, \boldsymbol{\Sigma}_E)
 $$
 
 其中：
+
 $$
 \boldsymbol{\mu}_E = \begin{bmatrix} \bar{M} \\ \bar{T} \end{bmatrix}, \quad
 \boldsymbol{\Sigma}_E = \begin{bmatrix}
@@ -485,24 +500,27 @@ $$
 T(t) = \bar{T} + A_T \sin\left(\frac{2\pi t}{P_T}\right) + \varepsilon_T(t)
 $$
 
-其中$A_M, A_T$为振幅，$P_M, P_T$为周期（通常为365天），$\varepsilon_M(t), \varepsilon_T(t)$为随机波动项。
+其中 $A_M, A_T$ 为振幅， $P_M, P_T$ 为周期（通常为365天）， $\varepsilon_M(t), \varepsilon_T(t)$ 为随机波动项。
 
 #### 6.3.2 **气候变化趋势模型**
 
 1. **线性变暖趋势**：
-   $$
-   T(t) = T_0 + \delta_T \cdot t
-   $$
+
+$$
+T(t) = T_0 + \delta_T \cdot t
+$$
 
 2. **加速干燥趋势**：
-   $$
-   M(t) = M_0 - \delta_M \cdot t^2
-   $$
+
+$$
+M(t) = M_0 - \delta_M \cdot t^2
+$$
 
 3. **波动加剧趋势**：
-   $$
-   \sigma_M(t) = \sigma_{M,0}(1 + \alpha t), \quad \sigma_T(t) = \sigma_{T,0}(1 + \beta t)
-   $$
+
+$$
+\sigma_M(t) = \sigma_{M,0}(1 + \alpha t), \quad \sigma_T(t) = \sigma_{T,0}(1 + \beta t)
+$$
 
 ## 七、**改进的多样性评估指标体系**
 
@@ -514,7 +532,7 @@ $$
 \text{DEI} = \frac{1}{t_{\text{end}} - t_0} \int_{t_0}^{t_{\text{end}}} \frac{-dW/dt}{W_0} \cdot S_E(t) \, dt
 $$
 
-其中$S_E(t)$为环境适宜性权重函数，$W_0$为初始木质纤维量。
+其中 $S_E(t)$ 为环境适宜性权重函数，$W_0$为初始木质纤维量。
 
 #### 7.1.2 **多样性降低影响率(I)**
 
@@ -528,7 +546,7 @@ $$
 S = 1 - \frac{\sigma_{\text{DEI}}}{\mu_{\text{DEI}} \cdot V_E}
 $$
 
-其中$\sigma_{\text{DEI}}$为DEI的标准差，$\mu_{\text{DEI}}$为DEI的均值，$V_E$为环境波动强度。
+其中 $\sigma_{\text{DEI}}$ 为DEI的标准差， $\mu_{\text{DEI}}$ 为DEI的均值， $V_E$ 为环境波动强度。
 
 #### 7.1.4 **多样性增益倍数(G)**
 
@@ -541,11 +559,13 @@ $$
 #### 7.2.1 **数据标准化**
 
 对于正向指标（DEI, S, G）：
+
 $$
 r_{ij} = \frac{x_{ij} - \min_j x_{ij}}{\max_j x_{ij} - \min_j x_{ij}}
 $$
 
 对于负向指标（I）：
+
 $$
 r_{ij} = \frac{\max_j x_{ij} - x_{ij}}{\max_j x_{ij} - \min_j x_{ij}}
 $$
@@ -576,8 +596,8 @@ $$
 
 #### 7.3.2 **理想解与负理想解**
 
-正理想解：$V^+ = (\max_i v_{i1}, \min_i v_{i2}, \max_i v_{i3}, \max_i v_{i4})$
-负理想解：$V^- = (\min_i v_{i1}, \max_i v_{i2}, \min_i v_{i3}, \min_i v_{i4})$
+正理想解： $V^+ = (\max_i v_{i1}, \min_i v_{i2}, \max_i v_{i3}, \max_i v_{i4})$
+负理想解： $V^- = (\min_i v_{i1}, \max_i v_{i2}, \min_i v_{i3}, \min_i v_{i4})$
 
 #### 7.3.3 **相对贴近度计算**
 
@@ -594,6 +614,7 @@ $$
 ### 8.1 **多样性-功能关系模型**
 
 假设多样性-功能关系遵循饱和曲线：
+
 $$
 F(n) = F_{\max} \left[1 - \exp\left(-\lambda (n - n_0)\right)\right] + F_0
 $$
@@ -609,11 +630,13 @@ $$
 ### 8.2 **边际收益递减分析**
 
 边际收益函数：
+
 $$
 MR(n) = \frac{dF}{dn} = \lambda F_{\max} \exp\left[-\lambda (n - n_0)\right]
 $$
 
-定义边际收益阈值$\epsilon$（如0.1），则最小有效多样性$n^*$满足：
+定义边际收益阈值 $\epsilon$ （如0.1），则最小有效多样性 $n^*$ 满足：
+
 $$
 \frac{MR(n^*)}{MR(1)} \leq \epsilon
 $$
@@ -621,24 +644,27 @@ $$
 ### 8.3 **功能冗余度分析**
 
 功能冗余指数：
+
 $$
 R(n) = 1 - \frac{H_{\text{功能}}(n)}{H_{\max}}
 $$
 
-其中$H_{\text{功能}}(n)$为n个物种的功能性状香农多样性指数，$H_{\max}$为最大可能多样性。
+其中 $H_{\text{功能}}(n)$ 为n个物种的功能性状香农多样性指数， $H_{\max}$ 为最大可能多样性。
 
 最小多样性需满足：
+
 $$
 R(n) \geq R_{\min}(V_E)
 $$
 
-其中$R_{\min}(V_E)$为环境波动强度$V_E$的函数，随$V_E$增加而增加。
+其中 $R_{\min}(V_E)$ 为环境波动强度 $V_E$ 的函数，随 $V_E$ 增加而增加。
 
 ### 8.4 **综合决策框架**
 
-最小生物多样性$n_{\min}$应满足：
+最小生物多样性 $n_{\min}$ 应满足：
+
 $$
-n_{\min} = \max\{n_F^*, n_R^*, n_V^*\}
+n_{\min} = \max \{ n_F^* , n_R^* , n_V^* \}
 $$
 
 其中：
@@ -650,16 +676,18 @@ $$
 ### 8.5 **环境波动下的鲁棒性要求**
 
 定义功能输出方差：
+
 $$
 \text{Var}[F(n)] = \mathbb{E}\left[ \left( F(n) - \mathbb{E}[F(n)] \right)^2 \right]
 $$
 
 最小多样性需满足：
+
 $$
 \text{Var}[F(n)] \leq \text{Var}_{\max}
 $$
 
-其中$\text{Var}_{\max}$为最大可接受方差。
+其中 $\text{Var}_{\max}$ 为最大可接受方差。
 
 ## 九、**模型应用与预测框架**
 
@@ -680,17 +708,18 @@ $$
 ### 9.2 **环境快速波动敏感性分析**
 
 定义敏感性指数：
+
 $$
 \Psi_i = \frac{\partial \ln F_i}{\partial \ln \sigma_E}
 $$
 
-其中$\sigma_E$为环境波动强度。
+其中 $\sigma_E$ 为环境波动强度。
 
 敏感性等级划分：
 
-- 高敏感：$|\Psi_i| > 0.5$
-- 中等敏感：$0.2 < |\Psi_i| \leq 0.5$
-- 低敏感：$|\Psi_i| \leq 0.2$
+- 高敏感： $|\Psi_i| > 0.5$
+- 中等敏感： $0.2 < |\Psi_i| \leq 0.5$
+- 低敏感： $|\Psi_i| \leq 0.2$
 
 ### 9.3 **大气变化趋势影响评估**
 
@@ -702,14 +731,15 @@ $$
 
 #### 9.3.2 **组成变化率**
 
-设物种组成向量$\mathbf{P}(t) = [p_1(t), p_2(t), \ldots, p_n(t)]^T$，其中$p_i(t) = F_i(t)/\sum F_j(t)$，则组成变化率为：
+设物种组成向量 $\mathbf{P}(t) = [p_1(t), p_2(t), \ldots, p_n(t)]^T$ ，其中 $p_i(t) = F_i(t)/\sum F_j(t)$ ，则组成变化率为：
+
 $$
 \Delta C = \frac{1}{T} \int_0^T \left\| \frac{d\mathbf{P}}{dt} \right\| dt
 $$
 
 #### 9.3.3 **恢复时间**
 
-从扰动恢复到平衡所需时间$T_{\text{recovery}}$。
+从扰动恢复到平衡所需时间 $T_{\text{recovery}}$ 。
 
 ### 9.4 **不同环境下的优势预测**
 
@@ -724,16 +754,18 @@ $$
 ### 9.5 **多样性作用的环境依赖性**
 
 定义多样性效应指数：
+
 $$
 \Lambda(E) = \frac{\text{DEI}_{\text{多样群落}} - \text{DEI}_{\text{最优单种}}}{\text{DEI}_{\text{最优单种}}}
 $$
 
-建立与环境波动性$V_E$的关系：
+建立与环境波动性 $V_E$ 的关系：
+
 $$
 \Lambda = a + bV_E + cV_E^2
 $$
 
-其中系数$a, b, c$通过回归分析确定。
+其中系数 $a, b, c$ 通过回归分析确定。
 
 ## 十、**模型验证与不确定性分析**
 
@@ -742,6 +774,7 @@ $$
 #### 10.1.1 **质量平衡检验**
 
 碳流守恒方程：
+
 $$
 \frac{dW}{dt} + \sum_{i=1}^n \frac{1}{\eta_i} \frac{dF_i}{dt} + \sum_{i=1}^n \frac{d_i}{\eta_i} F_i = 0
 $$
@@ -749,6 +782,7 @@ $$
 #### 10.1.2 **稳态检验**
 
 在恒定环境条件下，系统应趋于稳定平衡点：
+
 $$
 \lim_{t \to \infty} \frac{d\mathbf{X}}{dt} = 0, \quad \mathbf{X} = [W, F_1, F_2, \ldots, F_n]^T
 $$
@@ -758,18 +792,21 @@ $$
 采用Sobol全局敏感性分析方法：
 
 - 一阶敏感性指数：
-  $$
-  S_i = \frac{\text{Var}_{X_i}(\mathbb{E}_{X_{\sim i}}[Y|X_i])}{\text{Var}(Y)}
-  $$
+
+$$
+S_i = \frac{\text{Var}_{X_i}(\mathbb{E}_{X_{\sim i}}[Y|X_i])}{\text{Var}(Y)}
+$$
 
 - 总效应指数：
-  $$
-  S_{Ti} = 1 - \frac{\text{Var}_{X_{\sim i}}(\mathbb{E}_{X_i}[Y|X_{\sim i}])}{\text{Var}(Y)}
-  $$
+
+$$
+S_{Ti} = 1 - \frac{\text{Var}_{X_{\sim i}}(\mathbb{E}_{X_i}[Y|X_{\sim i}])}{\text{Var}(Y)}
+$$
 
 ### 10.3 **模型不确定性量化**
 
 总不确定性分解为三部分：
+
 $$
 U_{\text{total}}^2 = U_{\text{参数}}^2 + U_{\text{结构}}^2 + U_{\text{情景}}^2
 $$
